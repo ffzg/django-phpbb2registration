@@ -54,7 +54,7 @@ class PhpbbBackend:
         except User.DoesNotExist:
   #          logging.info(u"Creating new Django user '%s'" % username)
             if username:
-                user = User(username = smart_unicode(username, encoding="utf-8"), password = "")
+                user = User(username = username, password = "")
                 user.is_staff = False
                 user.is_superuser = False
                 user.email = phpbb_user.user_email
@@ -68,7 +68,7 @@ class PhpbbBackend:
         # in to the admin interface.
         user.set_password(password)
         user.save()
-        logging.debug(u"Returning user '%s'" % user)
+        logging.debug(u"Returning user '%s'" % user.username)
         return user
 
     def get_user(self, user_id):
