@@ -24,7 +24,7 @@ class PhpbbBackend(object):
                                                                     password, site)
        
         # create phpbb2 user
-        pass_md5 = hashlib.md5(password).hexdigest()
+        pass_md5 = hashlib.md5(password.encode("cp1250")).hexdigest()
         phpbb_user = PhpbbUsers.objects.create(username=username, user_password=pass_md5, user_lang=lang, user_email=email)
         phpbb_user.save()
         

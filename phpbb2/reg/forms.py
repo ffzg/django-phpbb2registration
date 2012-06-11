@@ -113,7 +113,7 @@ class PhpbbSetPasswordForm(SetPasswordForm):
         password = self.cleaned_data['new_password1']
         phpbb_user = new_user.get_profile().phpbb_user
 
-        pass_md5 = hashlib.md5(password).hexdigest()
+        pass_md5 = hashlib.md5(password.encode("cp1250")).hexdigest()
         phpbb_user.user_password = pass_md5
         # is this nessesary ?
         phpbb_user.save()

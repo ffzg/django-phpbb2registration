@@ -6,6 +6,7 @@
 import logging
 from django.contrib.auth.models import User
 from phpbb2.reg.models import PhpbbUsers, PhpbbDjangoUserLink
+from django.utils.encoding import smart_unicode
 import hashlib
 
 from django.conf import settings
@@ -29,7 +30,7 @@ class PhpbbBackend:
         logging.debug(u"PhpbbBackend::authenticate()")
         user = None
         # phpbb 2.x encodes passwords as plain md5 hashes, no salt
-        pass_md5 = hashlib.md5(password).hexdigest()
+        pass_md5 = hashlib.md5(password.encode("cp1250")).hexdigest()
 
         try:
             phpbb_user = PhpbbUsers.objects.get(username = username)
@@ -51,9 +52,9 @@ class PhpbbBackend:
         try:
             user = User.objects.get(username = username)
         except User.DoesNotExist:
-            logging.info(u"Creating new Django user '%s'" % username)
+  #          logging.info(u"Creating new Django user '%s'" % username)
             if username:
-                user = User(username = username, password = "")
+                user = User(username = smart_unicode(username, encoding="utf-8"), password = "")
                 user.is_staff = False
                 user.is_superuser = False
                 user.email = phpbb_user.user_email
@@ -72,5 +73,5 @@ class PhpbbBackend:
 
     def get_user(self, user_id):
         user = User.objects.get(pk = user_id)
-        logging.debug(u"get_user(): Returning user '%s'" % user)
+ #       logging.debug(u"get_user(): Returning user '%s'" % user)
         return user
