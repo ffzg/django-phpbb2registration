@@ -1,0 +1,14 @@
+{% extends "registration/registration_base.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}Register for an account{% endblock %}
+{% block content %}
+        {% crispy form form.helper %}
+{% endblock %}
+{% block extrajs %}
+<script>
+$(function() {
+        $('#id_username').focus()
+});
+</script>
+{% endblock %}
