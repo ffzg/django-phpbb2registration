@@ -55,7 +55,6 @@ class PhpbbBackend(object):
             # todo: make method in models
             phpbb_user.user_active = 1
             phpbb_user.save()
-            print phpbb_user.user_active
             activated.save()
 
             signals.user_activated.send(sender=self.__class__,
