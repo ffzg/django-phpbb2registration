@@ -1,6 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth import views as auth_views
 from django.conf import settings
+from django.views.generic.simple import direct_to_template
 
 from registration.views import register, activate
 from reg.forms import *
@@ -14,6 +15,10 @@ urlpatterns = patterns('',
     url(r'^accounts/register/$', 
         register, {'backend': 'phpbb2.regbackend.PhpbbBackend','form_class': PhpbbUsersForm}, 
         name='registration_register'),
+     url(r'^accounts/activate/complete/$',
+        direct_to_template,
+        {'template': 'registration/activation_complete.html'},
+        name='registration_activation_complete'),
     url(r'^accounts/activate/(?P<activation_key>\w+)/$', 
         activate, {'backend': 'phpbb2.regbackend.PhpbbBackend'},
         name='registration_activate'),
